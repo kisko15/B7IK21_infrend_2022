@@ -1,0 +1,10 @@
+.carousel-item {
+    height: 32rem;
+    position: relative;
+}
+
+.img {
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+}

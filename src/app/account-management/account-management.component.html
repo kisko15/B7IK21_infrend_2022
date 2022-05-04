@@ -1,0 +1,89 @@
+<!-- Table -->
+<div class="container">
+    <div class="row">
+        <table class="table table-hover align-middle mb-0 bg-white caption-top table-responsive">
+            <caption>
+                <input class="form-control mb-1" type="text" placeholder="Keresés..." #box [(ngModel)]="searchQuery"
+                    (keyup)=search(box.value)>
+            </caption>
+            <thead class="bg-light">
+                <tr class="text-center">
+                    <th scope="col" class="col-1">Bankszámlaszám</th>
+                    <th class="col-2">Név</th>
+                    <th class="col-2">Szig.sz</th>
+                    <th class="col-2">Egyenleg</th>
+                    <th class="col-1">Státusz</th>
+                    <th class="col-2">Utalások</th>
+                    <th class="col-2">Lehetőségek</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let accountManagement of accountManagements" class="text-center">
+                    <th scope="row">{{accountManagement.bankAccount}}</th>
+                    <td>{{accountManagement.user.name}}</td>
+                    <td>{{accountManagement.user.identityCardNumber}}</td>
+                    <td>{{accountManagement.balance | currency}}</td>
+                    <td>{{accountManagement.bankAccountStatus}}</td>
+                    <td>
+                        <div class="d-grid gap-2 my-1">
+                            <button type="button" class="btn btn-rounded btn-primary btn-sm fw-bold" mdbRipple
+                                rippleColor="dark" *ngIf="onCheckBankAccountStatus(accountManagement.bankAccountStatus)"
+                                (click)="navigateToDeposit(accountManagement.id)">
+                                Befizetés
+                            </button>
+                        </div>
+                        <div class="d-grid gap-2 my-1">
+                            <button type="button" class="btn btn-rounded btn-success btn-sm fw-bold" mdbRipple
+                                rippleColor="dark" *ngIf="onCheckBankAccountStatus(accountManagement.bankAccountStatus)"
+                                (click)="navigateToPayout(accountManagement.id)">
+                                Kifizetés
+                            </button>
+                        </div>
+                        <div class="d-grid gap-2 my-1">
+                            <button type="button" class="btn btn-rounded btn-warning btn-sm fw-bold" mdbRipple
+                                rippleColor="dark" *ngIf="onCheckBankAccountStatus(accountManagement.bankAccountStatus)"
+                                (click)="navigateToTransfer(accountManagement.id)">
+                                Átutalás
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-grid gap-2 my-1">
+                            <button type="button" class="btn btn-rounded btn-info btn-sm fw-bold" mdbRipple
+                                rippleColor="dark" *ngIf="onCheckBankAccountStatus(accountManagement.bankAccountStatus)"
+                                (click)="navigateToAccountHistory(accountManagement.id)">
+                                Számlatörténet
+                            </button>
+                        </div>
+                        <div class="d-grid gap-2 my-1">
+                            <button type="button" class="btn btn-rounded btn-danger btn-sm fw-bold" mdbRipple
+                                rippleColor="dark" data-bs-toggle="modal" data-bs-target="#blocked"
+                                *ngIf="onCheckBankAccountStatus(accountManagement.bankAccountStatus)"
+                                (click)="getAccountManagementById(accountManagement.id)">
+                                Zárolás
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--Blocked-->
+<div class="container">
+    <div class="modal fade" tabindex="-1" id="blocked">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h2 class="pt-2">Biztosan zárolni szereté?</h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nem</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        (click)="blockedBankAccount()">Igen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

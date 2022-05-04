@@ -1,0 +1,11 @@
+table {
+    counter-reset: tableCount;     
+}
+.counterCell:before {              
+    content: counter(tableCount); 
+    counter-increment: tableCount; 
+}
+
+table tbody tr {
+    height: 91px;
+  }
